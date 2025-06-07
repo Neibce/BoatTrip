@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.BoatTrip" parent="Base.Theme.BoatTrip" />
+
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
+    </style>
 </resources>
