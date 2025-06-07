@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="[일본] 도쿄"
+            android:fontFamily="@font/human_beomseokneo_light"
             android:textSize="28sp" />
 
         <TextView
@@ -24,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="2025.05.06 - 2025.05.08"
+            android:fontFamily="@font/human_beomseokneo_light"
             android:textSize="28sp" />
 
         <View
@@ -70,16 +72,19 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/human_beomseokneo_light"
                 android:text="1일차" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/human_beomseokneo_light"
                 android:text="2일차" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/human_beomseokneo_light"
                 android:text="3일차" />
         </LinearLayout>
 
