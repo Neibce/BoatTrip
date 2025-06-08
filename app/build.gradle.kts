@@ -40,6 +40,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.converter.gson)
     implementation(libs.play.services.maps)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.core.ktx)
