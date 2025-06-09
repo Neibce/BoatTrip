@@ -2,13 +2,18 @@
 
     <item
         android:id="@+id/item4"
-        android:icon="@drawable/ic_launcher_background"
-        android:title="Item 4" />
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="메인" />
 
     <item
         android:id="@+id/item5"
-        android:icon="@drawable/ic_launcher_background"
-        android:title="Item 5" />
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="분류" />
+
+    <item
+        android:id="@+id/item6"
+        android:icon="@drawable/ic_launcher_foreground"
+        android:title="바보" />
 
 
 </menu>
