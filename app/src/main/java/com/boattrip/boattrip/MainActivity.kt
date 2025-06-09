@@ -4,17 +4,15 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
+
 
     fun goToMain(view: View) {
         if (this::class.java.simpleName != "MainActivity") {
@@ -24,6 +22,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
+
     fun goBack(view: View) {
         if (!isTaskRoot) {
             finish()
@@ -31,14 +30,18 @@ class MainActivity : AppCompatActivity() {
             showExitDialog()
         }
     }
+
     private fun showExitDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("종료")
+        builder
             .setMessage("앱을 종료하시겠습니까?")
-            .setPositiveButton("종료",
+            .setPositiveButton(
+                "종료",
                 DialogInterface.OnClickListener { dialog, id ->
+                    finishAffinity()
                 })
-            .setNegativeButton("취소",
+            .setNegativeButton(
+                "취소",
                 DialogInterface.OnClickListener { dialog, id ->
                 })
         builder.show()
