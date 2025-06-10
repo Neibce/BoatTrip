@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.glide)
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.converter.gson)
     implementation(libs.play.services.maps)

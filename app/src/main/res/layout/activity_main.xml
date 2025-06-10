@@ -23,5 +23,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="35dp"
         app:menu="@menu/navigation_bar" />
 </LinearLayout>
