@@ -45,7 +45,7 @@
         android:layout_height="130dp"
         android:layout_marginStart="35dp"
         android:layout_marginEnd="35dp"
-        android:background="#F3F6FF"
+        android:background="@drawable/rounded_square"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="10dp"
