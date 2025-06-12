@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-
     fun goToMain(view: View) {
         if (this::class.java.simpleName != "MainActivity") {
             val intent = Intent(this, MainActivity::class.java)
