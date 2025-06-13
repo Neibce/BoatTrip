@@ -2,6 +2,7 @@ package com.boattrip.boattrip.llm;
 
 data class LLMRouteRequest(
     var model: String,
-    var messages: List<Message>,
+    var tools: List<Tool>,
+    var input: List<Message>,
     var stream: Boolean,
 )

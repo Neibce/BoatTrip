@@ -40,6 +40,10 @@ android {
 }
 
 dependencies {
+    implementation(libs.huggingface.tokenizers)
+    implementation(libs.tensorflow.lite)
+    implementation(libs.tensorflow.lite.support)
+    implementation(libs.mlkit.image.labeling.custom)
     implementation(libs.glide)
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.converter.gson)

@@ -16,6 +16,7 @@ activityCompose = "1.10.1"
 composeBom = "2025.06.00"
 retrofit2 = "3.0.0"
 glide = "4.16.0"
+mlkit = "17.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +41,10 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
 retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide"}
+mlkit-image-labeling-custom = { group = "com.google.mlkit", name = "image-labeling-custom", version.ref = "mlkit" }
+tensorflow-lite = { group = "org.tensorflow", name = "tensorflow-lite", version = "2.17.0" }
+tensorflow-lite-support = { group = "org.tensorflow", name = "tensorflow-lite-support", version = "0.5.0" }
+huggingface-tokenizers = { group = "ai.djl.huggingface", name = "tokenizers", version = "0.33.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

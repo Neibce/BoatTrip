@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp">
+
+
+    <FrameLayout
+        android:id="@+id/step_icon_container"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/step_circle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/circle_blue"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="11:30"
+                android:textColor="#000"
+                android:textSize="12dp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view_dotted_line"
+            android:layout_width="3.1dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="45dp"
+            android:background="@drawable/dotted_line"
+            android:visibility="visible" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/step_icon_container"
+        android:layout_toEndOf="@id/step_icon_container"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="8dp">
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="11111"
+            android:textColor="#000"
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="#000"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+
+</RelativeLayout>

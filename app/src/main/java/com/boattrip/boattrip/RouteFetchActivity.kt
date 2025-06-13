@@ -3,6 +3,7 @@ package com.boattrip.boattrip
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,6 +11,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.boattrip.boattrip.llm.LLMRouteRequest
 import com.boattrip.boattrip.llm.LLMService
 import com.boattrip.boattrip.llm.Message
+import com.boattrip.boattrip.llm.Tool
+import com.bumptech.glide.Glide
 import com.google.gson.JsonParser
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
@@ -32,41 +35,49 @@ class RouteFetchActivity : AppCompatActivity() {
             insets
         }
 
+        val img = findViewById<ImageView>(R.id.loadingGif)
+        Glide.with(this)
+            .asGif()
+            .load(R.drawable.loading_dog)
+            .into(img)
+
         val client = OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS) // 연결 타임아웃: 30초
             .readTimeout(60, TimeUnit.SECONDS) // 읽기 타임아웃: 30초
             .writeTimeout(60, TimeUnit.SECONDS) // 쓰기 타임아웃: 30초
             .build()
 
-        val retrofit = Retrofit.Builder().baseUrl("https://api.upstage.ai/")
+        val retrofit = Retrofit.Builder().baseUrl("https://api.openai.com/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create()).build();
-        val service = retrofit.create(LLMService::class.java);
+        val service = retrofit.create(LLMService::class.java)
 
         val request = LLMRouteRequest(
-            model = "solar-pro2-preview",
-            messages = listOf(
+            model = "gpt-4.1-mini",
+            tools = listOf(Tool("web_search_preview")),
+            input = listOf(
                 Message(
-                    role = "system", content = "당신은 한국 여행사의 매우 우수한 관광 가이드입니다.\n" +
+                    role = "system",
+                    content = "You are an exceptionally competent tour guide for a major travel agency.\n" +
                             "\n" +
-                            "고객을 위한 후쿠오카 3박 4일 일정을 짜주세요.\n" +
-                            "빈 시간이 없도록 알차게 준비해야 합니다.\n" +
-                            "도보, 대중교통 동선도 생각해야 합니다.\n"+
-                            "대략적인 시간도 포함되어야 합니다.\n" +
-                            "식당을 적을 때에는 절대로 없는 상호명을 지어내지 않아야 합니다.\n" +
-                            "숙박은 적지 않아야 합니다.\n" +
-                            "시간은 반드시 ISO 8601에 따른 파싱 가능한 형태여야 합니다.\n" +
+                            "Please create a `4-day, 3-night` itinerary for `삿포로` for customers.\n" +
+                            "The schedule must be fully packed without any idle time.\n" +
+                            "You must also consider walking and public transportation routes.\n" +
+                            "Approximate times must be included.\n" +
+                            "When listing restaurants, you must *never* make up fictitious names.\n" +
+                            "Do not include any accommodation-related items.\n" +
+                            "Time must be written strictly in 'HH:mm' format (e.g., 09:00)\n" +
                             "\n" +
-                            "반드시 json 형식으로 반환하세요.\n" +
-                            "해당 장소의 정확한 위치 좌표(lat, lng)도 각 장소마다 필히 반드시 반환하세요.\n" +
-                            "반드시 정확한 위치를 반환하도록 하세요.\n" +
+                            "The response must be in **JSON format only**.\n" +
+                            "Each place must include accurate coordinates (lat, lng).\n" +
+                            "Make sure the locations and coordinates are exact.\n" +
                             "\n" +
-                            "당신은 단순 REST API처럼 동작하여야 하며, json 응답이외에 어떤 것도 말해서는 안됩니다.\n" +
+                            "You must operate strictly like a REST API and **must not return anything other than JSON**.\n" +
                             "\n" +
-                            "모든 내용은 한국어로 작성해야 합니다.\n" +
+                            "All content must be written in **Korean**.\n" +
                             "\n" +
-                            "\n" +
-                            "JSON 응답 형식은 다음의 예시를 무조건 준수해야 합니다.\n" +
+                            "You must strictly follow the example JSON response format.\n" +
+                            "The `coordinates` field is mandatory." +
                             "\n" +
                             "{\n" +
                             "  \"itinerary\": [\n" +
@@ -75,7 +86,7 @@ class RouteFetchActivity : AppCompatActivity() {
                             "      \"date\": \"2025-06-08\",\n" +
                             "      \"schedule\": [\n" +
                             "        {\n" +
-                            "          \"time\": \"2025-06-08T09:00:00+09:00\",\n" +
+                            "          \"time\": \"09:00\",\n" +
                             "          \"activity\": \"도쿄역 방문\",\n" +
                             "          \"location\": \"도쿄역\",\n" +
                             "          \"coordinates\": {\n" +
@@ -88,21 +99,34 @@ class RouteFetchActivity : AppCompatActivity() {
                             "  ]\n" +
                             "}\n"
                 ),
-                Message(role = "user", content = "짜주세요..")
+                //The location is inaccurate. Correct it now and return the exact coordinates without any mistakes.
+                Message(role = "user", content = "일정을 짜달라!! 저번에 짜준건 위치 좌표가 다 틀려서 제대로 여행을 못했잖아!! 짤리고싶어?!"),
             ),
             stream = false
         )
 
-        service.getStructuredAnswer("Bearer up_VljCSWmilJloaBCJ0RHUUnWdcusC2", request)
+        service.getStructuredAnswer(
+            "Bearer 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",
+            request
+        )
             .enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
                     if (response.isSuccessful) {
                         // 정상적으로 통신이 성고된 경우
                         var result: String? = response.body()?.string()
-                        var a = JsonParser.parseString(result).asJsonObject["choices"].asJsonArray.get(0)
-                            .asJsonObject["message"].asJsonObject["content"].asString
-                        var b = JsonParser.parseString(a.replace("```json", "").replace("```", "")).asJsonObject
-                        Log.d("YMC", "onResponse 성공: " + result?.toString() + b.toString());
+                        var a =
+                            JsonParser.parseString(result).asJsonObject["output"].asJsonArray.get(0)
+                                .asJsonObject["content"].asJsonArray.get(0).asJsonObject["text"].asString
+                        Log.d("YMC", "onResponse 성공: " + result?.toString() + a.toString())
+                        val start = a.indexOfFirst { it == '{' }
+                        val end = a.indexOfLast { it == '}' } + 1
+                        val jsonString =
+                            if (start >= 0 && end > start) a.substring(start, end) else "{}"
+                        val b = JsonParser.parseString(jsonString).asJsonObject
+                        Log.d("YMC", "onResponse 성공: " + result?.toString() + b.toString())
 
                         //load RouteActivity and pass the data
                         val intent = Intent(this@RouteFetchActivity, RouteViewActivity::class.java)
@@ -110,9 +134,10 @@ class RouteFetchActivity : AppCompatActivity() {
                         startActivity(intent)
                     } else {
                         // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
-                        Log.d("YMC",
+                        Log.d(
+                            "YMC",
                             "onResponse 실패 응답 코드: " + response.code()
-                                .toString() + ", 메시지: " + response.message()
+                                .toString() + ", 메시지: " + response.body()
                         );
                     }
                 }
