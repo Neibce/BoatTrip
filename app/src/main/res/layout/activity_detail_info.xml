@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailInfoActivity">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/header" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toTopOf="@id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/themeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="여행 테마 선택"
+                android:layout_gravity="center"
+                android:textSize="30dp"
+                android:fontFamily="@font/human_beomseokneo_bold" />
+
+            <GridLayout
+                android:id="@+id/themeGrid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:gravity="center"
+                android:layout_marginTop="12dp"
+                android:alignmentMode="alignMargins"
+                android:rowOrderPreserved="false"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginEnd="12dp"
+                    android:onClick="onEatingThemeClicked">  <!-- 클릭 콜백이 여기로 오도록 -->
+
+                    <ImageButton
+                        android:id="@+id/btnEatingTheme"
+                        android:layout_width="170dp"
+                        android:layout_height="170dp"
+                        android:src="@drawable/eating_dog"
+                        android:background="@android:color/transparent"
+                        android:foreground="@drawable/rounded_border"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerInside"
+                        android:contentDescription="먹방 테마" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:text="먹방"
+                        android:fontFamily="@font/human_beomseokneo_light"
+                        android:textSize="15sp"
+                        android:textColor="#444444"
+                        android:layout_marginTop="7dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onHealingThemeClicked">  <!-- 클릭 콜백이 여기로 오도록 -->
+
+                    <ImageButton
+                        android:id="@+id/btnHealingTheme"
+                        android:layout_width="170dp"
+                        android:layout_height="170dp"
+                        android:src="@drawable/healing_dog"
+                        android:background="@android:color/transparent"
+                        android:foreground="@drawable/rounded_border"
+                        android:scaleType="centerInside"
+                        android:adjustViewBounds="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="힐링"
+                        android:fontFamily="@font/human_beomseokneo_light"
+                        android:textSize="15sp"
+                        android:textColor="#444444"
+                        android:layout_marginTop="7dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginEnd="12dp"
+                    android:onClick="onHistoryThemeClicked">
+
+                    <ImageButton
+                        android:id="@+id/btnHistoryTheme"
+                        android:layout_width="170dp"
+                        android:layout_height="170dp"
+                        android:src="@drawable/history_dog"
+                        android:background="@android:color/transparent"
+                        android:foreground="@drawable/rounded_border"
+                        android:scaleType="centerInside"
+                        android:adjustViewBounds="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="역사 탐방"
+                        android:fontFamily="@font/human_beomseokneo_light"
+                        android:textSize="15sp"
+                        android:textColor="#444444"
+                        android:layout_marginTop="7dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onSurfingThemeClicked">
+
+                    <ImageButton
+                        android:id="@+id/btnSurfingTheme"
+                        android:layout_width="170dp"
+                        android:layout_height="170dp"
+                        android:src="@drawable/surfing_dog"
+                        android:background="@android:color/transparent"
+                        android:foreground="@drawable/rounded_border"
+                        android:scaleType="centerInside"
+                        android:adjustViewBounds="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="액티비티"
+                        android:fontFamily="@font/human_beomseokneo_light"
+                        android:textSize="15sp"
+                        android:textColor="#444444"
+                        android:layout_marginTop="7dp"/>
+                </LinearLayout>
+            </GridLayout>
+
+            <TextView
+                android:id="@+id/scheduleLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="비행기 일정 선택"
+                android:textSize="30dp"
+                android:fontFamily="@font/human_beomseokneo_bold"
+                android:layout_marginTop="24dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="16dp">
+
+                <!-- 출발 비행기 시간 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/rounded_square"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_airplane"
+                        android:layout_marginEnd="12dp"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="출발 시간"
+                            android:textSize="16sp"
+                            android:textColor="#444444"
+                            android:fontFamily="@font/human_beomseokneo_light"/>
+
+                        <TextView
+                            android:id="@+id/departureTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="시간을 선택해주세요"
+                            android:textSize="18sp"
+                            android:textColor="#000000"
+                            android:fontFamily="@font/human_beomseokneo_bold"
+                            android:layout_marginTop="4dp"/>
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/btnSelectDepartureTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/right_icon"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="8dp"/>
+                </LinearLayout>
+
+                <!-- 간격 -->
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"/>
+
+                <!-- 도착 비행기 시간 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/rounded_square"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_airplane"
+                        android:layout_marginEnd="12dp"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="도착 시간"
+                            android:textSize="16sp"
+                            android:textColor="#444444"
+                            android:fontFamily="@font/human_beomseokneo_light"/>
+
+                        <TextView
+                            android:id="@+id/arrivalTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="시간을 선택해주세요"
+                            android:textSize="18sp"
+                            android:textColor="#000000"
+                            android:fontFamily="@font/human_beomseokneo_bold"
+                            android:layout_marginTop="4dp"/>
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/btnSelectArrivalTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/right_icon"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="8dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/transportLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="교통수단 선택"
+                android:textSize="30dp"
+                android:fontFamily="@font/human_beomseokneo_bold"
+                android:layout_marginTop="24dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_margin="12dp"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onTrainClicked" >
+
+                    <ImageButton
+                        android:id="@+id/btnTrain"
+                        android:layout_width="170dp"
+                        android:layout_height="170dp"
+                        android:src="@drawable/train_icon"
+                        android:background="@android:color/transparent"
+                        android:foreground="@drawable/rounded_border"
+                        android:scaleType="centerInside"
+                        android:adjustViewBounds="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="대중교통"
+                        android:fontFamily="@font/human_beomseokneo_light"
+                        android:textSize="15sp"
+                        android:textColor="#444444"
+                        android:layout_marginTop="7dp"/>
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="16dp"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="onCarClicked">
+
+                    <ImageButton
+                        android:id="@+id/btnCar"
+                        android:layout_width="170dp"
+                        android:layout_height="170dp"
+                        android:src="@drawable/car_icon"
+                        android:scaleType="center"
+                        android:background="@android:color/transparent"
+                        android:foreground="@drawable/rounded_border"
+                        android:adjustViewBounds="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="승용차"
+                        android:fontFamily="@font/human_beomseokneo_light"
+                        android:textSize="15sp"
+                        android:textColor="#444444"
+                        android:layout_marginTop="7dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <View
+        android:layout_width="370dp"
+        android:layout_height="0.3dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="#999999"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="17dp"
+        android:background="@drawable/rounded_square"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:radius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/dog_logo" />
+
+        <TextView
+            android:id="@+id/searchEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:fontFamily="@font/human_beomseokneo_medium"
+            android:text="어떤 여행을 즐기고 싶멍?"
+            android:textColor="#444444"
+            android:textSize="23dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
