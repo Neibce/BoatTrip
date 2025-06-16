@@ -35,6 +35,11 @@ class RouteFetchActivity : AppCompatActivity() {
             insets
         }
 
+        val theme = intent.getStringExtra("theme") ?: "일반"
+        val departureTime = intent.getStringExtra("departureTime") ?: "시간을 선택해주세요"
+        val arrivalTime = intent.getStringExtra("arrivalTime") ?: "시간을 선택해주세요"
+        val transport = intent.getStringExtra("transport") ?: ""
+
         val img = findViewById<ImageView>(R.id.loadingGif)
         Glide.with(this)
             .asGif()
@@ -42,9 +47,9 @@ class RouteFetchActivity : AppCompatActivity() {
             .into(img)
 
         val client = OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS) // 연결 타임아웃: 30초
-            .readTimeout(60, TimeUnit.SECONDS) // 읽기 타임아웃: 30초
-            .writeTimeout(60, TimeUnit.SECONDS) // 쓰기 타임아웃: 30초
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
         val retrofit = Retrofit.Builder().baseUrl("https://api.openai.com/")
@@ -99,8 +104,14 @@ class RouteFetchActivity : AppCompatActivity() {
                             "  ]\n" +
                             "}\n"
                 ),
-                //The location is inaccurate. Correct it now and return the exact coordinates without any mistakes.
-                Message(role = "user", content = "일정을 짜달라!! 저번에 짜준건 위치 좌표가 다 틀려서 제대로 여행을 못했잖아!! 짤리고싶어?!"),
+                Message(
+                    role = "user", 
+                    content = "테마: $theme\n" +
+                            "출발 시간: $departureTime\n" +
+                            "도착 시간: $arrivalTime\n" +
+                            "교통수단: $transport\n" +
+                            "위 정보를 바탕으로 일정을 짜달라!! 저번에 짜준건 위치 좌표가 다 틀려서 제대로 여행을 못했잖아!! 짤리고싶어?!"
+                ),
             ),
             stream = false
         )

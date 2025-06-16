@@ -127,6 +127,8 @@
                     android:layout_width="130dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_image"
+                    android:clipToOutline="true"
                     android:src="@drawable/tokyo_image" />
 
                 <TextView
@@ -152,6 +154,8 @@
                     android:layout_width="130dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_image"
+                    android:clipToOutline="true"
                     android:src="@drawable/sapporo_image" />
 
                 <TextView
@@ -177,6 +181,8 @@
                     android:layout_width="130dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_image"
+                    android:clipToOutline="true"
                     android:src="@drawable/taiwan_image" />
 
                 <TextView
@@ -202,6 +208,8 @@
                     android:layout_width="130dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_image"
+                    android:clipToOutline="true"
                     android:src="@drawable/chiangmai_image" />
 
                 <TextView
