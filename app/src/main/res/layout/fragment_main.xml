@@ -42,7 +42,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginEnd="35dp"
         android:background="@drawable/rounded_square"
@@ -61,13 +61,13 @@
             android:id="@+id/searchEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:fontFamily="@font/human_beomseokneo_medium"
             android:hint="여행지를 입력해달라멍!"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:layout_margin="8dp"
             android:radius="20dp"
             android:textColor="#444444"
             android:textSize="19dp" />

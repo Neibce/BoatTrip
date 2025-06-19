@@ -2,12 +2,68 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.BoatTrip" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">#9BB3FF</item>
+        <item name="colorAccent">#9BB3FF</item>
+        <item name="colorSurfaceContainer">#F3F6FF</item>
+
+        <!-- 기본 폰트 설정 (XML에 fontFamily가 없는 경우에만 적용됨) -->
+        <item name="android:fontFamily">@font/human_beomseokneo_regular</item>
+        <item name="fontFamily">@font/human_beomseokneo_regular</item>
     </style>
 
     <style name="Theme.BoatTrip" parent="Base.Theme.BoatTrip" />
 
     <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
+    </style>
+
+    <!-- MaterialDatePicker 전용 테마 -->
+    <style name="ThemeOverlay_App_DatePicker" parent="ThemeOverlay.Material3.MaterialCalendar">
+        <item name="materialCalendarStyle">@style/Widget.App.MaterialCalendar</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.App.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.App.HeadlineMedium</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.App.BodyLarge</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.App.BodyMedium</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.App.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.App.LabelMedium</item>
+    </style>
+
+    <!-- MaterialDatePicker 캘린더 위젯 스타일 -->
+    <style name="Widget.App.MaterialCalendar" parent="Widget.Material3.MaterialCalendar">
+        <item name="dayStyle">@style/Widget.App.MaterialCalendar.Day</item>
+        <item name="yearStyle">@style/Widget.App.MaterialCalendar.Year</item>
+    </style>
+
+    <style name="Widget.App.MaterialCalendar.Day" parent="Widget.Material3.MaterialCalendar.Day">
+        <item name="itemTextAppearance">@style/TextAppearance.App.BodyMedium</item>
+    </style>
+
+    <style name="Widget.App.MaterialCalendar.Year" parent="Widget.Material3.MaterialCalendar.Year">
+        <item name="itemTextAppearance">@style/TextAppearance.App.BodyLarge</item>
+    </style>
+
+    <!-- 커스텀 텍스트 스타일들 (MaterialDatePicker용) -->
+    <style name="TextAppearance.App.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="fontFamily">@font/human_beomseokneo_semibold</item>
+    </style>
+
+    <style name="TextAppearance.App.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="fontFamily">@font/human_beomseokneo_medium</item>
+    </style>
+
+    <style name="TextAppearance.App.BodyLarge" parent="TextAppearance.Material3.BodyLarge">
+        <item name="fontFamily">@font/human_beomseokneo_regular</item>
+    </style>
+
+    <style name="TextAppearance.App.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">@font/human_beomseokneo_regular</item>
+    </style>
+
+    <style name="TextAppearance.App.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="fontFamily">@font/human_beomseokneo_medium</item>
+    </style>
+
+    <style name="TextAppearance.App.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="fontFamily">@font/human_beomseokneo_regular</item>
     </style>
 </resources>

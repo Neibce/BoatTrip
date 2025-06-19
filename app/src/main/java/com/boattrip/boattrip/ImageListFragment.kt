@@ -42,7 +42,7 @@ class ImageListFragment : Fragment() {
             .build()
 
         val customImageLabelerOptions = CustomImageLabelerOptions.Builder(localModel)
-            .setMaxResultCount(5)
+            .setMaxResultCount(10)
             .build()
 
 

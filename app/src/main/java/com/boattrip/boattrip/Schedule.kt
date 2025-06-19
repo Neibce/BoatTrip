@@ -5,4 +5,11 @@ data class Schedule(
     var activity: String,
     var location: String,
     var coordinates: Coordinate
-)
+) {
+    constructor() : this(
+        time = "",
+        activity = "",
+        location = "",
+        coordinates = Coordinate(0.0, 0.0)
+    )
+}
