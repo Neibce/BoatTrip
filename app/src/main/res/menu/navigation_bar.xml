@@ -1,17 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item4"
+        android:id="@+id/item_main"
         android:icon="@drawable/home_icon"
         android:title="메인" />
 
     <item
-        android:id="@+id/item5"
+        android:id="@+id/item_gallery"
         android:icon="@drawable/photoclassification_icon"
         android:title="분류" />
 
     <item
-        android:id="@+id/item6"
+        android:id="@+id/item_archive"
         android:icon="@drawable/archive_icon"
         android:title="아카이브" />
 </menu>

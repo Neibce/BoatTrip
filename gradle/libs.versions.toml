@@ -1,5 +1,6 @@
 [versions]
 agp = "8.10.1"
+firebaseBom = "33.15.0"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
@@ -16,10 +17,12 @@ activityCompose = "1.10.1"
 composeBom = "2025.06.00"
 retrofit2 = "3.0.0"
 glide = "4.16.0"
-mlkit = "17.0.0"
+mlkit = "17.0.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

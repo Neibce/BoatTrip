@@ -60,16 +60,17 @@ class RouteFetchActivity : AppCompatActivity() {
                     role = "system",
                     content = "You are an exceptionally competent tour guide for a major travel agency.\n" +
                             "\n" +
-                            "Please create a `4-day, 3-night` itinerary for `삿포로` for customers.\n" +
+                            "Please create a `3-day, 2-night` itinerary for `도쿄` for customers.\n" +
                             "The schedule must be fully packed without any idle time.\n" +
-                            "You must also consider walking and public transportation routes.\n" +
+                            /*"You must also consider walking and public transportation routes.\n" +
                             "Approximate times must be included.\n" +
                             "When listing restaurants, you must *never* make up fictitious names.\n" +
                             "Do not include any accommodation-related items.\n" +
                             "Time must be written strictly in 'HH:mm' format (e.g., 09:00)\n" +
                             "\n" +
                             "The response must be in **JSON format only**.\n" +
-                            "Each place must include accurate coordinates (lat, lng).\n" +
+                            "Each place must include accurate coordinates (lat, lng).\n" +*/
+                            "You must use coordinates that exactly match Google Maps' official place location (POI), to 6 decimal places.\n"+
                             "Make sure the locations and coordinates are exact.\n" +
                             "\n" +
                             "You must operate strictly like a REST API and **must not return anything other than JSON**.\n" +
@@ -100,7 +101,7 @@ class RouteFetchActivity : AppCompatActivity() {
                             "}\n"
                 ),
                 //The location is inaccurate. Correct it now and return the exact coordinates without any mistakes.
-                Message(role = "user", content = "일정을 짜달라!! 저번에 짜준건 위치 좌표가 다 틀려서 제대로 여행을 못했잖아!! 짤리고싶어?!"),
+                Message(role = "user", content = "이전에 받은 일정은 위치 좌표가 정확하지 않아 여행에 어려움이 있었습니다. 이번에는 정확한 공식 좌표만 사용해 다시 생성해주세요."),
             ),
             stream = false
         )
@@ -132,6 +133,7 @@ class RouteFetchActivity : AppCompatActivity() {
                         val intent = Intent(this@RouteFetchActivity, RouteViewActivity::class.java)
                         intent.putExtra("routeData", b.toString())
                         startActivity(intent)
+                        finish()
                     } else {
                         // 통신이 실패한 경우(응답코드 3xx, 4xx 등)
                         Log.d(

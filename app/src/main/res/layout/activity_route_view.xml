@@ -25,7 +25,7 @@
             android:layout_marginBottom="4dp"
             android:fontFamily="@font/human_beomseokneo_light"
             android:text="[일본] 도쿄"
-            android:textSize="28sp" />
+            android:textSize="24dp" />
 
         <TextView
             android:id="@+id/textView5"
@@ -35,15 +35,33 @@
             android:layout_marginBottom="12dp"
             android:fontFamily="@font/human_beomseokneo_light"
             android:text="2025.05.06 - 2025.05.08"
-            android:textSize="28sp" />
+            android:textSize="24dp" />
 
-        <View
-            android:id="@+id/divider"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="8dp"
-            android:background="?android:attr/listDivider" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="@font/human_beomseokneo_light"
+                android:text="경로 저장"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/addToCalendarButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/human_beomseokneo_light"
+                android:text="캘린더에 추가"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/map"
@@ -62,10 +80,10 @@
         android:paddingHorizontal="16dp"
         android:paddingBottom="16dp"
         app:behavior_fitToContents="true"
-        app:behavior_halfExpandedRatio="0.5"
         app:behavior_hideable="false"
         app:behavior_peekHeight="100dp"
         app:behavior_saveFlags="all"
+        android:minHeight="200dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <!-- Drag handle for accessibility -->
