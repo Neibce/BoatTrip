@@ -141,6 +141,13 @@ class DetailInfoActivity : AppCompatActivity() {
 
     private fun navigateToRouteFetch(theme: String) {
         val intent = Intent(this, RouteFetchActivity::class.java).apply {
+            // 이전 화면에서 받은 데이터
+            putExtra("startDate", intent.getStringExtra("startDate"))
+            putExtra("endDate", intent.getStringExtra("endDate"))
+            putExtra("duration", intent.getIntExtra("duration", 0))
+            putExtra("destination", intent.getStringExtra("destination"))
+            
+            // DetailInfo 화면에서 선택한 데이터
             putExtra("theme", theme)
             putExtra("departureTime", departureTimeText.text.toString())
             putExtra("arrivalTime", arrivalTimeText.text.toString())

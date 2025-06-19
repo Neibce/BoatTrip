@@ -1,10 +1,13 @@
 package com.boattrip.boattrip
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +24,9 @@ class MainFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var searchEditText: EditText
+    private lateinit var searchIcon: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -33,8 +39,19 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        val view = inflater.inflate(R.layout.fragment_main, container, false)
+        
+        searchEditText = view.findViewById(R.id.searchEditText)
+        searchIcon = view.findViewById(R.id.search_icon)
+        
+        searchIcon.setOnClickListener {
+            val destination = searchEditText.text.toString()
+            val intent = Intent(activity, CalendarActivity::class.java)
+            intent.putExtra("destination", destination)
+            startActivity(intent)
+        }
+        
+        return view
     }
 
     companion object {

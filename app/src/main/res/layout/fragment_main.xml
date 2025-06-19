@@ -73,10 +73,11 @@
             android:textSize="19dp" />
 
         <ImageView
+            android:id="@+id/search_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/searcn_icon" />
+            android:src="@drawable/search_icon" />
     </LinearLayout>
 
     <TextView

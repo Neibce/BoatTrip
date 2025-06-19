@@ -45,16 +45,4 @@ class MainActivity : AppCompatActivity() {
                 })
         builder.show()
     }
-//    private fun showExitDialog() {
-//        AlertDialog.Builder(this)
-//            .setTitle("앱 종료")
-//            .setMessage("앱을 종료하시겠습니까?")
-//            .setPositiveButton("예") { _: DialogInterface, _: Int ->
-//                finishAffinity()
-//            }
-//            .setNegativeButton("아니오") { dialog: DialogInterface, _: Int ->
-//                dialog.dismiss()
-//            }
-//            .show()
-//    }
 }

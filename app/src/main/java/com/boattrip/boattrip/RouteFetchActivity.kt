@@ -35,10 +35,27 @@ class RouteFetchActivity : AppCompatActivity() {
             insets
         }
 
+        // 이전 화면들에서 전달받은 모든 데이터
+        val destination = intent.getStringExtra("destination") ?: "목적지 미지정"
+        val startDate = intent.getStringExtra("startDate") ?: "날짜 미지정"
+        val endDate = intent.getStringExtra("endDate") ?: "날짜 미지정"
+        val duration = intent.getIntExtra("duration", 0)
         val theme = intent.getStringExtra("theme") ?: "일반"
         val departureTime = intent.getStringExtra("departureTime") ?: "시간을 선택해주세요"
         val arrivalTime = intent.getStringExtra("arrivalTime") ?: "시간을 선택해주세요"
         val transport = intent.getStringExtra("transport") ?: ""
+
+        Log.d("RouteFetch", """
+            전달받은 데이터:
+            목적지: $destination
+            시작일: $startDate
+            종료일: $endDate
+            기간: $duration
+            테마: $theme
+            출발시간: $departureTime
+            도착시간: $arrivalTime
+            교통수단: $transport
+        """.trimIndent())
 
         val img = findViewById<ImageView>(R.id.loadingGif)
         Glide.with(this)

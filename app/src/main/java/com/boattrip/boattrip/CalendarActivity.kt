@@ -17,10 +17,14 @@ class CalendarActivity : AppCompatActivity() {
     private val calendar = Calendar.getInstance()
     private var startDate: Calendar? = null
     private var endDate: Calendar? = null
+    private var destination: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
+
+        // 전달받은 destination 데이터 저장
+        destination = intent.getStringExtra("destination") ?: ""
 
         monthText = findViewById(R.id.monthText)
         yearText = findViewById(R.id.yearText)
@@ -58,8 +62,8 @@ class CalendarActivity : AppCompatActivity() {
             when {
                 startDate == null -> {
                     startDate = selectedCalendar
-                    selectedDateInfo.visibility = View.VISIBLE
-                    selectedDateInfo.text = "출발 날짜를 선택했멍! 이제 도착 날짜를 선택해달라멍!"
+            selectedDateInfo.visibility = View.VISIBLE
+                    selectedDateInfo.text = "출발 날짜를 선택했멍!\n이제 도착 날짜를 선택해달라멍!"
                 }
                 endDate == null -> {
                     if (selectedCalendar.before(startDate)) {
@@ -68,7 +72,7 @@ class CalendarActivity : AppCompatActivity() {
                     }
                     endDate = selectedCalendar
                     calculateDuration()
-                }
+            }
                 else -> {
                     startDate = selectedCalendar
                     endDate = null
@@ -87,11 +91,12 @@ class CalendarActivity : AppCompatActivity() {
 
         selectedDateInfo.text = "${nights}박 ${days}일 여행이다멍!"
         
-        // 다음 화면으로 날짜 정보 전달
-        val intent = Intent(this, RouteFetchActivity::class.java).apply {
+        // DetailInfoActivity로 이동
+        val intent = Intent(this, DetailInfoActivity::class.java).apply {
             putExtra("startDate", "${startDate!!.get(Calendar.YEAR)}-${startDate!!.get(Calendar.MONTH) + 1}-${startDate!!.get(Calendar.DAY_OF_MONTH)}")
             putExtra("endDate", "${endDate!!.get(Calendar.YEAR)}-${endDate!!.get(Calendar.MONTH) + 1}-${endDate!!.get(Calendar.DAY_OF_MONTH)}")
             putExtra("duration", days)
+            putExtra("destination", destination)
         }
         startActivity(intent)
     }
