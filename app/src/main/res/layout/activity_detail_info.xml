@@ -98,7 +98,8 @@
                         android:background="@android:color/transparent"
                         android:foreground="@drawable/rounded_border"
                         android:scaleType="centerInside"
-                        android:adjustViewBounds="true" />
+                        android:adjustViewBounds="true"
+                        android:contentDescription="힐링 테마" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -128,7 +129,8 @@
                         android:background="@android:color/transparent"
                         android:foreground="@drawable/rounded_border"
                         android:scaleType="centerInside"
-                        android:adjustViewBounds="true" />
+                        android:adjustViewBounds="true"
+                        android:contentDescription="역사 탐방 테마" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -157,7 +159,8 @@
                         android:background="@android:color/transparent"
                         android:foreground="@drawable/rounded_border"
                         android:scaleType="centerInside"
-                        android:adjustViewBounds="true" />
+                        android:adjustViewBounds="true"
+                        android:contentDescription="액티비티 테마" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -232,11 +235,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/right_icon"
+                        android:contentDescription="출발 비행기 시간"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:padding="8dp"/>
                 </LinearLayout>
 
-                <!-- 간격 -->
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="12dp"/>
@@ -286,6 +289,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/right_icon"
+                        android:contentDescription="도착 비행기 시간"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:padding="8dp"/>
                 </LinearLayout>
@@ -315,8 +319,7 @@
                     android:orientation="vertical"
                     android:gravity="center"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="onTrainClicked" >
+                    android:focusable="true" >
 
                     <ImageButton
                         android:id="@+id/btnTrain"
@@ -326,7 +329,9 @@
                         android:background="@android:color/transparent"
                         android:foreground="@drawable/rounded_border"
                         android:scaleType="centerInside"
-                        android:adjustViewBounds="true" />
+                        android:adjustViewBounds="true"
+                        android:onClick="onTrainClicked"
+                        android:contentDescription="대중교통 선택" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -348,8 +353,7 @@
                     android:orientation="vertical"
                     android:gravity="center"
                     android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="onCarClicked">
+                    android:focusable="true" >
 
                     <ImageButton
                         android:id="@+id/btnCar"
@@ -359,7 +363,9 @@
                         android:scaleType="center"
                         android:background="@android:color/transparent"
                         android:foreground="@drawable/rounded_border"
-                        android:adjustViewBounds="true" />
+                        android:adjustViewBounds="true"
+                        android:onClick="onCarClicked"
+                        android:contentDescription="승용차 선택" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -393,36 +399,29 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="17dp"
-        android:background="@drawable/rounded_square"
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp"
-        android:radius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        android:padding="16dp"
+        android:background="@color/white"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="15dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/dog_logo" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/dog_logo"
+            android:layout_marginEnd="12dp"/>
 
         <TextView
-            android:id="@+id/searchEditText"
-            android:layout_width="wrap_content"
+            android:id="@+id/bottomText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:fontFamily="@font/human_beomseokneo_medium"
             android:text="어떤 여행을 즐기고 싶멍?"
-            android:textColor="#444444"
-            android:textSize="23dp" />
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:fontFamily="@font/human_beomseokneo_light"
+            android:gravity="center_vertical"/>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

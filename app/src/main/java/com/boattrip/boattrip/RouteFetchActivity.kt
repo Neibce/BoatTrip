@@ -35,6 +35,28 @@ class RouteFetchActivity : AppCompatActivity() {
             insets
         }
 
+        // 이전 화면들에서 전달받은 모든 데이터
+        val destination = intent.getStringExtra("destination") ?: "목적지 미지정"
+        val startDate = intent.getStringExtra("startDate") ?: "날짜 미지정"
+        val endDate = intent.getStringExtra("endDate") ?: "날짜 미지정"
+        val duration = intent.getIntExtra("duration", 0)
+        val theme = intent.getStringExtra("theme") ?: "일반"
+        val departureTime = intent.getStringExtra("departureTime") ?: "시간을 선택해주세요"
+        val arrivalTime = intent.getStringExtra("arrivalTime") ?: "시간을 선택해주세요"
+        val transport = intent.getStringExtra("transport") ?: ""
+
+        Log.d("RouteFetch", """
+            전달받은 데이터:
+            목적지: $destination
+            시작일: $startDate
+            종료일: $endDate
+            기간: $duration
+            테마: $theme
+            출발시간: $departureTime
+            도착시간: $arrivalTime
+            교통수단: $transport
+        """.trimIndent())
+
         val img = findViewById<ImageView>(R.id.loadingGif)
         Glide.with(this)
             .asGif()
@@ -42,9 +64,9 @@ class RouteFetchActivity : AppCompatActivity() {
             .into(img)
 
         val client = OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS) // 연결 타임아웃: 30초
-            .readTimeout(60, TimeUnit.SECONDS) // 읽기 타임아웃: 30초
-            .writeTimeout(60, TimeUnit.SECONDS) // 쓰기 타임아웃: 30초
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
             .build()
 
         val retrofit = Retrofit.Builder().baseUrl("https://api.openai.com/")
@@ -100,8 +122,14 @@ class RouteFetchActivity : AppCompatActivity() {
                             "  ]\n" +
                             "}\n"
                 ),
-                //The location is inaccurate. Correct it now and return the exact coordinates without any mistakes.
-                Message(role = "user", content = "이전에 받은 일정은 위치 좌표가 정확하지 않아 여행에 어려움이 있었습니다. 이번에는 정확한 공식 좌표만 사용해 다시 생성해주세요."),
+                Message(
+                    role = "user", 
+                    content = "테마: $theme\n" +
+                            "출발 시간: $departureTime\n" +
+                            "도착 시간: $arrivalTime\n" +
+                            "교통수단: $transport\n" +
+                            "이전에 받은 일정은 위치 좌표가 정확하지 않아 여행에 어려움이 있었습니다. 이번에는 정확한 공식 좌표만 사용해 다시 생성해주세요."
+                ),
             ),
             stream = false
         )

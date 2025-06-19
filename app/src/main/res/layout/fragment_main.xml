@@ -73,10 +73,11 @@
             android:textSize="19dp" />
 
         <ImageView
+            android:id="@+id/search_icon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="10dp"
-            android:src="@drawable/searcn_icon" />
+            android:src="@drawable/search_icon" />
     </LinearLayout>
 
     <TextView
@@ -127,6 +128,8 @@
                     android:layout_width="130dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_image"
+                    android:clipToOutline="true"
                     android:src="@drawable/tokyo_image" />
 
                 <TextView
@@ -152,6 +155,8 @@
                     android:layout_width="130dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_image"
+                    android:clipToOutline="true"
                     android:src="@drawable/sapporo_image" />
 
                 <TextView
@@ -177,6 +182,8 @@
                     android:layout_width="130dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_image"
+                    android:clipToOutline="true"
                     android:src="@drawable/taiwan_image" />
 
                 <TextView
@@ -202,6 +209,8 @@
                     android:layout_width="130dp"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
+                    android:background="@drawable/rounded_image"
+                    android:clipToOutline="true"
                     android:src="@drawable/chiangmai_image" />
 
                 <TextView
