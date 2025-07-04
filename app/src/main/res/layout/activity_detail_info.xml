@@ -47,33 +47,36 @@
                 android:layout_marginTop="12dp"
                 android:alignmentMode="alignMargins"
                 android:rowOrderPreserved="false"
-                >
+                android:useDefaultMargins="true">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_gravity="center"
                     android:orientation="vertical"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true"
-                    android:layout_marginEnd="12dp"
-                    android:onClick="onEatingThemeClicked">  <!-- 클릭 콜백이 여기로 오도록 -->
+                    android:layout_margin="8dp"
+                    android:onClick="onEatingThemeClicked">
 
                     <ImageButton
                         android:id="@+id/btnEatingTheme"
-                        android:layout_width="170dp"
-                        android:layout_height="170dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
                         android:src="@drawable/eating_dog"
                         android:background="@android:color/transparent"
                         android:foreground="@drawable/rounded_border"
                         android:adjustViewBounds="true"
                         android:scaleType="centerInside"
+                        android:onClick="onEatingThemeClicked"
                         android:contentDescription="먹방 테마" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:scaleType="centerCrop"
                         android:text="먹방"
                         android:fontFamily="@font/human_beomseokneo_light"
                         android:textSize="15sp"
@@ -84,21 +87,26 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_gravity="center"
                     android:orientation="vertical"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true"
-                    android:onClick="onHealingThemeClicked">  <!-- 클릭 콜백이 여기로 오도록 -->
+                    android:layout_margin="8dp"
+                    android:onClick="onHealingThemeClicked">
 
                     <ImageButton
                         android:id="@+id/btnHealingTheme"
-                        android:layout_width="170dp"
-                        android:layout_height="170dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
                         android:src="@drawable/healing_dog"
                         android:background="@android:color/transparent"
                         android:foreground="@drawable/rounded_border"
                         android:scaleType="centerInside"
                         android:adjustViewBounds="true"
+                        android:onClick="onHealingThemeClicked"
                         android:contentDescription="힐링 테마" />
 
                     <TextView
@@ -114,22 +122,26 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_gravity="center"
                     android:orientation="vertical"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true"
-                    android:layout_marginEnd="12dp"
+                    android:layout_margin="8dp"
                     android:onClick="onHistoryThemeClicked">
 
                     <ImageButton
                         android:id="@+id/btnHistoryTheme"
-                        android:layout_width="170dp"
-                        android:layout_height="170dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
                         android:src="@drawable/history_dog"
                         android:background="@android:color/transparent"
                         android:foreground="@drawable/rounded_border"
                         android:scaleType="centerInside"
                         android:adjustViewBounds="true"
+                        android:onClick="onHistoryThemeClicked"
                         android:contentDescription="역사 탐방 테마" />
 
                     <TextView
@@ -145,21 +157,26 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_gravity="center"
                     android:orientation="vertical"
                     android:gravity="center"
                     android:clickable="true"
                     android:focusable="true"
+                    android:layout_margin="8dp"
                     android:onClick="onSurfingThemeClicked">
 
                     <ImageButton
                         android:id="@+id/btnSurfingTheme"
-                        android:layout_width="170dp"
-                        android:layout_height="170dp"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
                         android:src="@drawable/surfing_dog"
                         android:background="@android:color/transparent"
                         android:foreground="@drawable/rounded_border"
                         android:scaleType="centerInside"
                         android:adjustViewBounds="true"
+                        android:onClick="onSurfingThemeClicked"
                         android:contentDescription="액티비티 테마" />
 
                     <TextView
@@ -214,10 +231,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="출발 시간"
-                            android:textSize="16sp"
+                            android:fontFamily="@font/human_beomseokneo_light"
+                            android:text="도착 시각"
                             android:textColor="#444444"
-                            android:fontFamily="@font/human_beomseokneo_light"/>
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/departureTime"
@@ -268,10 +285,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="도착 시간"
-                            android:textSize="16sp"
+                            android:fontFamily="@font/human_beomseokneo_light"
+                            android:text="출발 시각"
                             android:textColor="#444444"
-                            android:fontFamily="@font/human_beomseokneo_light"/>
+                            android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/arrivalTime"
@@ -310,21 +327,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_margin="12dp"
-                android:weightSum="2">
+                android:layout_marginTop="12dp"
+                android:layout_marginHorizontal="16dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
                     android:clickable="true"
-                    android:focusable="true" >
+                    android:focusable="true"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="onTrainClicked">
 
                     <ImageButton
                         android:id="@+id/btnTrain"
-                        android:layout_width="170dp"
-                        android:layout_height="170dp"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
                         android:src="@drawable/train_icon"
                         android:background="@android:color/transparent"
                         android:foreground="@drawable/rounded_border"
@@ -343,24 +363,23 @@
                         android:layout_marginTop="7dp"/>
                 </LinearLayout>
 
-                <Space
-                    android:layout_width="16dp"
-                    android:layout_height="wrap_content" />
-
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center"
                     android:clickable="true"
-                    android:focusable="true" >
+                    android:focusable="true"
+                    android:layout_marginStart="8dp"
+                    android:onClick="onCarClicked">
 
                     <ImageButton
                         android:id="@+id/btnCar"
-                        android:layout_width="170dp"
-                        android:layout_height="170dp"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
                         android:src="@drawable/car_icon"
-                        android:scaleType="center"
+                        android:scaleType="centerInside"
                         android:background="@android:color/transparent"
                         android:foreground="@drawable/rounded_border"
                         android:adjustViewBounds="true"
@@ -382,46 +401,46 @@
     </ScrollView>
 
 
-    <View
-        android:layout_width="370dp"
-        android:layout_height="0.3dp"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="#999999"
-        android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.97" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
         android:background="@color/white"
         android:elevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/dog_logo"
-            android:layout_marginEnd="12dp"/>
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/dog_logo" />
 
         <TextView
             android:id="@+id/bottomText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="어떤 여행을 즐기고 싶멍?"
-            android:textSize="16sp"
-            android:textColor="#000000"
             android:fontFamily="@font/human_beomseokneo_light"
-            android:gravity="center_vertical"/>
+            android:gravity="center_vertical"
+            android:text="어떤 여행을 즐기고 싶멍?"
+            android:layout_marginRight="5dp"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다음"
+            android:textColor="@color/black"
+            android:backgroundTint="#F3F6FF"
+            android:fontFamily="@font/human_beomseokneo_bold"
+            android:onClick="navigateToRouteFetch" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
