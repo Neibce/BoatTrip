@@ -3,7 +3,7 @@ package com.boattrip.boattrip
 import android.net.Uri
 
 enum class PhotoCategory {
-    ALL, PERSON, FOOD, OUTDOOR, RECEIPT
+    ALL, PERSON, FOOD, CITY, NATURE, RECEIPT
 }
 
 data class PhotoItem(

@@ -45,7 +45,6 @@ class ImageListFragment : Fragment() {
             .setMaxResultCount(10)
             .build()
 
-
         pickImageLauncher =
             registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
                 uri?.let {
@@ -56,12 +55,6 @@ class ImageListFragment : Fragment() {
                                 "ImageListFragment",
                                 "Labels: ${labels.joinToString(", ") { it.text }}"
                             )
-                            // Task completed successfully
-                            // ...
-                        }
-                        .addOnFailureListener { e ->
-                            // Task failed with an exception
-                            // ...
                         }
                 }
             }

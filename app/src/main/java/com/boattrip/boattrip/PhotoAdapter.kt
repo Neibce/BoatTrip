@@ -1,5 +1,6 @@
 package com.boattrip.boattrip
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,18 +41,53 @@ class PhotoAdapter(private var photos: List<PhotoItem>) : RecyclerView.Adapter<P
         
         // 카테고리 표시 및 배경색 설정
         val (categoryText, backgroundRes) = when (photo.category) {
-            PhotoCategory.ALL -> "전체" to R.drawable.rounded_square
+            PhotoCategory.ALL -> "전체" to R.drawable.category_badge_all
             PhotoCategory.PERSON -> "👤 사람" to R.drawable.category_badge_person
             PhotoCategory.FOOD -> "🍽️ 음식" to R.drawable.category_badge_food
-            PhotoCategory.OUTDOOR -> "🌍 아웃도어" to R.drawable.category_badge_outdoor
+            PhotoCategory.CITY -> "🏙️ 도시" to R.drawable.category_badge_outdoor
+            PhotoCategory.NATURE -> "🌲 자연" to R.drawable.category_badge_outdoor
             PhotoCategory.RECEIPT -> "🧾 영수증" to R.drawable.category_badge_receipt
         }
         
         holder.categoryTextView.text = categoryText
+
         holder.categoryTextView.background = ContextCompat.getDrawable(
             holder.itemView.context,
             backgroundRes
         )
+
+        // 사진 클릭 시 외부 앱에서 열기
+        holder.imageView.setOnClickListener {
+            openImageInExternalApp(holder.itemView.context, photo)
+        }
+
+        // 전체 아이템 클릭 시에도 외부 앱에서 열기
+        holder.itemView.setOnClickListener {
+            openImageInExternalApp(holder.itemView.context, photo)
+        }
+    }
+
+    private fun openImageInExternalApp(context: android.content.Context, photo: PhotoItem) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(photo.uri, "image/*")
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            }
+            
+            // 이미지를 처리할 수 있는 앱이 있는지 확인
+            if (intent.resolveActivity(context.packageManager) != null) {
+                context.startActivity(intent)
+            } else {
+                // 처리할 수 있는 앱이 없을 경우 갤러리 앱으로 직접 열기 시도
+                val galleryIntent = Intent(Intent.ACTION_VIEW, photo.uri).apply {
+                    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                }
+                context.startActivity(galleryIntent)
+            }
+        } catch (e: Exception) {
+            // 에러 발생 시 로그 출력 (실제 앱에서는 Toast 메시지 등으로 사용자에게 알림)
+            android.util.Log.e("PhotoAdapter", "Failed to open image in external app", e)
+        }
     }
 
     override fun getItemCount(): Int = photos.size

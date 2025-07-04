@@ -39,8 +39,7 @@ class ImageClassificationHelper(private val context: Context) {
                     }
             }
 
-            Log.d("ImageClassification", "Image classified as: ${labels.map { it.text }}")
-            // 라벨을 기반으로 카테고리 결정
+            Log.d("ImageClassification", "classified: ${labels.map { it.text }}")
             val category = determineCategory(labels.map {
                 Pair<String, Float>(
                     it.text.lowercase(),
@@ -48,15 +47,15 @@ class ImageClassificationHelper(private val context: Context) {
                 )
             })
 
-            Log.d("ImageClassification", "Image classified as: $category")
+            Log.d("ImageClassification", "classified: $category")
             Log.d(
                 "ImageClassification",
-                "Labels found: ${labels.map { "${it.text}: ${it.confidence}" }}"
+                "Labels: ${labels.map { "${it.text}: ${it.confidence}" }}"
             )
 
             category
         } catch (e: Exception) {
-            Log.e("ImageClassification", "Error classifying image", e)
+            Log.e("ImageClassification", "Error")
             PhotoCategory.ALL
         }
     }
@@ -84,16 +83,22 @@ class ImageClassificationHelper(private val context: Context) {
             "restaurant", "dining", "breakfast", "lunch", "dinner"
         )
 
-        // 아웃도어 관련 키워드 (풍경 + 도시 통합)
-        val outdoorKeywords = listOf(
-            "landscape", "mountain", "hill", "forest", "tree", "grass", "field",
-            "sky", "cloud", "sunset", "sunrise", "beach", "ocean", "sea", "lake",
-            "river", "water", "nature", "outdoor", "scenery", "valley", "cliff",
-            "flower", "plant", "garden", "park",
+        // 도시 관련 키워드
+        val cityKeywords = listOf(
             "building", "architecture", "city", "urban", "street", "road",
             "bridge", "tower", "skyscraper", "house", "home", "window", "door",
             "car", "vehicle", "bus", "train", "subway", "traffic", "sign",
-            "shop", "store", "cafe", "hotel", "office"
+            "shop", "store", "cafe", "hotel", "office", "sidewalk", "intersection",
+            "downtown", "highway", "apartment", "construction", "mall", "airport"
+        )
+
+        // 자연 관련 키워드
+        val natureKeywords = listOf(
+            "landscape", "mountain", "hill", "forest", "tree", "grass", "field",
+            "sky", "cloud", "sunset", "sunrise", "beach", "ocean", "sea", "lake",
+            "river", "water", "nature", "outdoor", "scenery", "valley", "cliff",
+            "flower", "plant", "garden", "park", "wildlife", "animal", "bird",
+            "rock", "stone", "desert", "snow", "ice", "pond", "stream", "waterfall"
         )
 
         // 영수증/문서 관련 키워드
@@ -118,9 +123,14 @@ class ImageClassificationHelper(private val context: Context) {
                         (categoryScores[PhotoCategory.FOOD] ?: 0f) + label.second
                 }
 
-                outdoorKeywords.any { keyword -> label.first.contains(keyword) } -> {
-                    categoryScores[PhotoCategory.OUTDOOR] =
-                        (categoryScores[PhotoCategory.OUTDOOR] ?: 0f) + label.second
+                cityKeywords.any { keyword -> label.first.contains(keyword) } -> {
+                    categoryScores[PhotoCategory.CITY] =
+                        (categoryScores[PhotoCategory.CITY] ?: 0f) + label.second
+                }
+
+                natureKeywords.any { keyword -> label.first.contains(keyword) } -> {
+                    categoryScores[PhotoCategory.NATURE] =
+                        (categoryScores[PhotoCategory.NATURE] ?: 0f) + label.second
                 }
 
                 receiptKeywords.any { keyword -> label.first.contains(keyword) } -> {
@@ -130,7 +140,6 @@ class ImageClassificationHelper(private val context: Context) {
             }
         }
 
-        // 가장 높은 점수를 가진 카테고리 반환, 없으면 ALL
         return categoryScores.maxByOrNull { it.value }?.key ?: PhotoCategory.ALL
     }
 } 

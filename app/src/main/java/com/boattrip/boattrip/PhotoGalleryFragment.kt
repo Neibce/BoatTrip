@@ -85,6 +85,10 @@ class PhotoGalleryFragment : Fragment() {
         setupClickListeners()
         setupCategorySelection()
 
+        // 카테고리를 "전체"로 초기화
+        chipGroupCategory.check(R.id.chip_all)
+        selectedCategory = PhotoCategory.ALL
+
         if (!hasStoragePermission())
             requestStoragePermission()
     }
@@ -125,7 +129,8 @@ class PhotoGalleryFragment : Fragment() {
                     R.id.chip_all -> PhotoCategory.ALL
                     R.id.chip_person -> PhotoCategory.PERSON
                     R.id.chip_food -> PhotoCategory.FOOD
-                    R.id.chip_outdoor -> PhotoCategory.OUTDOOR
+                    R.id.chip_city -> PhotoCategory.CITY
+                    R.id.chip_nature -> PhotoCategory.NATURE
                     R.id.chip_receipt -> PhotoCategory.RECEIPT
                     else -> PhotoCategory.ALL
                 }
@@ -154,7 +159,8 @@ class PhotoGalleryFragment : Fragment() {
             PhotoCategory.ALL -> "전체"
             PhotoCategory.PERSON -> "사람"
             PhotoCategory.FOOD -> "음식"
-            PhotoCategory.OUTDOOR -> "아웃도어"
+            PhotoCategory.CITY -> "도시"
+            PhotoCategory.NATURE -> "자연"
             PhotoCategory.RECEIPT -> "영수증"
         }
 
@@ -167,12 +173,6 @@ class PhotoGalleryFragment : Fragment() {
 
     private fun showSearchResults(show: Boolean) {
         layoutSearchResults.visibility = if (show) View.VISIBLE else View.GONE
-
-        // 검색 결과가 표시될 때 카테고리를 "전체"로 초기화
-        if (show) {
-            chipGroupCategory.check(R.id.chip_all)
-            selectedCategory = PhotoCategory.ALL
-        }
     }
 
     private fun showDatePicker(onDateSelected: (Calendar) -> Unit) {
@@ -215,11 +215,15 @@ class PhotoGalleryFragment : Fragment() {
 
     private fun searchPhotos() {
         progressBar.visibility = View.VISIBLE
-        showSearchResults(false) // 검색 중에는 결과 섹션 숨김
+        //showSearchResults(false) // 검색 중에는 결과 섹션 숨김
+
+        // 검색 시작 시 카테고리를 "전체"로 리셋
+        chipGroupCategory.check(R.id.chip_all)
+        selectedCategory = PhotoCategory.ALL
 
         CoroutineScope(Dispatchers.IO).launch {
             val photos = getPhotosFromGallery()
-            
+
             // MLKit을 사용하여 각 사진 분류
             val classifiedPhotos = classifyPhotos(photos)
 
@@ -228,8 +232,8 @@ class PhotoGalleryFragment : Fragment() {
                 allPhotos = classifiedPhotos
 
                 if (classifiedPhotos.isNotEmpty()) {
-                    showSearchResults(true) // 검색 결과가 있으면 결과 섹션 표시
-                    filterPhotosByCategory() // 현재 선택된 카테고리로 필터링
+                    showSearchResults(true)
+                    filterPhotosByCategory()
                     Toast.makeText(
                         requireContext(),
                         "${classifiedPhotos.size}개의 사진을 분류했습니다!",
@@ -264,8 +268,10 @@ class PhotoGalleryFragment : Fragment() {
         }.timeInMillis
 
         // DATE_TAKEN 기준으로 필터링 (밀리초 단위)
+
         val selection =
-            "${MediaStore.Images.Media.DATE_TAKEN} >= ? AND ${MediaStore.Images.Media.DATE_TAKEN} <= ? AND ${MediaStore.Images.Media.DATE_TAKEN} IS NOT NULL"
+            "${MediaStore.Images.Media.DATE_TAKEN} >= ? AND ${MediaStore.Images.Media.DATE_TAKEN} <= ? AND " +
+                    "${MediaStore.Images.Media.DATE_TAKEN} IS NOT NULL"
         val selectionArgs = arrayOf(startTimestamp.toString(), endTimestamp.toString())
         val sortOrder = "${MediaStore.Images.Media.DATE_TAKEN} DESC"
 
@@ -303,9 +309,6 @@ class PhotoGalleryFragment : Fragment() {
         return photos
     }
 
-    /**
-     * MLKit을 사용하여 사진들을 분류합니다.
-     */
     private suspend fun classifyPhotos(photos: List<PhotoItem>): List<PhotoItem> {
         val classifiedPhotos = mutableListOf<PhotoItem>()
         val total = photos.size
@@ -321,9 +324,9 @@ class PhotoGalleryFragment : Fragment() {
                 val category = imageClassificationHelper.classifyImage(photo.uri)
                 val classifiedPhoto = photo.copy(category = category)
                 classifiedPhotos.add(classifiedPhoto)
-                
+
                 processed++
-                
+
                 // 진행률을 주기적으로 업데이트 (10장마다 또는 마지막)
                 if (processed % 10 == 0 || processed == total) {
                     withContext(Dispatchers.Main) {
@@ -331,7 +334,7 @@ class PhotoGalleryFragment : Fragment() {
                         // progressBar.progress = (processed * 100) / total
                     }
                 }
-                
+
             } catch (e: Exception) {
                 // 분류 실패시 원본 사진을 ALL 카테고리로 유지
                 classifiedPhotos.add(photo)
