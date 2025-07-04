@@ -34,6 +34,8 @@ import java.util.*
 class RouteViewActivity : AppCompatActivity() {
     var markerList: MutableList<Marker?> = ArrayList<Marker?>()
     var polylineList: MutableList<Polyline?> = ArrayList<Polyline?>()
+    lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    lateinit var standardBottomSheet: LinearLayout
     lateinit var mapFragment: SupportMapFragment
     lateinit var recyclerView: RecyclerView
     lateinit var route: Route
@@ -49,21 +51,41 @@ class RouteViewActivity : AppCompatActivity() {
             insets
         }
 
-        val standardBottomSheet = findViewById<LinearLayout>(R.id.standard_bottom_sheet)
-        val standardBottomSheetBehavior = BottomSheetBehavior.from(standardBottomSheet)
-        standardBottomSheetBehavior.halfExpandedRatio = 0.5f
-        standardBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED)
+        standardBottomSheet = findViewById<LinearLayout>(R.id.standard_bottom_sheet)
+        bottomSheetBehavior = BottomSheetBehavior.from(standardBottomSheet)
+        
+        val peekHeightInPx = (100 * resources.displayMetrics.density).toInt()
+        bottomSheetBehavior.peekHeight = peekHeightInPx
+        
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
 
         val routeData = intent.getStringExtra("routeData")
         route = Gson().fromJson(routeData, Route::class.java)
+        
+        val destination = intent.getStringExtra("destination") ?: "목적지 미지정"
+        val theme = intent.getStringExtra("theme") ?: "일반"
+        val startDate = intent.getStringExtra("startDate") ?: "날짜 미지정"
+        val endDate = intent.getStringExtra("endDate") ?: "날짜 미지정"
 
-        // 저장 버튼 클릭 리스너 설정
+        
+        val period = "$startDate - $endDate"
+
+        
+        val displayTitle = if (theme.isNotEmpty() && theme != "일반") {
+            "[$theme] $destination 여행"
+        } else {
+            destination
+        }
+        
+        findViewById<TextView>(R.id.textView4).text = displayTitle
+        findViewById<TextView>(R.id.textView5).text = period
+        
         val saveButton = findViewById<Button>(R.id.saveButton)
         saveButton.setOnClickListener {
             saveRouteToFirestore()
         }
-
-        // 캘린더 추가 버튼 클릭 리스너 설정
+        
         val addToCalendarButton = findViewById<Button>(R.id.addToCalendarButton)
         addToCalendarButton.setOnClickListener {
             addRouteToCalendar()
@@ -87,7 +109,7 @@ class RouteViewActivity : AppCompatActivity() {
                 else
                     setBackgroundResource(R.drawable.round_button)
 
-                setPadding(24, 16, 24, 16)
+                setPadding(36, 24, 36, 24)
 
                 setOnClickListener {
                     for (i in 0 until dayButtonsHolder.childCount) {
@@ -99,20 +121,20 @@ class RouteViewActivity : AppCompatActivity() {
                     changeDay(index + 1)
                 }
             }
-            
+
             val layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                //if (index > 0) {
-                    rightMargin = 12 // 버튼 사이 간격 추가
-                //}
+                
+                rightMargin = 12 
+                
             }
-            
+
             dayButtonsHolder.addView(button, layoutParams)
         }
 
-        //pin on map
+        
         mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -120,13 +142,16 @@ class RouteViewActivity : AppCompatActivity() {
     }
 
     private fun saveRouteToFirestore() {
-        // 임의의 목적지와 기간 설정 (실제로는 intent나 다른 곳에서 가져와야 함)
-        val destination = intent.getStringExtra("destination") ?: "[일본] 도쿄"
-        val period = intent.getStringExtra("period") ?: "2025.05.06 - 2025.05.08"
+        val destination = intent.getStringExtra("destination") ?: "목적지 미지정"
+        val theme = intent.getStringExtra("theme") ?: "일반"
+        val startDate = intent.getStringExtra("startDate") ?: "날짜 미지정"
+        val endDate = intent.getStringExtra("endDate") ?: "날짜 미지정"
 
         val savedRoute = SavedRoute(
             destination = destination,
-            period = period,
+            theme = theme,
+            startDate = startDate,
+            endDate = endDate,
             route = route,
             savedAt = System.currentTimeMillis()
         )
@@ -134,52 +159,48 @@ class RouteViewActivity : AppCompatActivity() {
         db.collection("saved_routes")
             .add(savedRoute)
             .addOnSuccessListener { documentReference ->
-                Toast.makeText(this, "경로가 저장되었습니다!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "경로가 저장되었습니다", Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "저장 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "저장 실패", Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun addRouteToCalendar() {
         val destination = intent.getStringExtra("destination") ?: "[일본] 도쿄"
+        val theme = intent.getStringExtra("theme") ?: "일반"
 
         try {
-            // 여행 전체 기간을 하나의 일정으로 추가
-            addCompleteRouteToCalendar(destination)
+            
+            addCompleteRouteToCalendar(destination, theme)
         } catch (e: Exception) {
             Toast.makeText(this, "캘린더 추가 실패: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun addCompleteRouteToCalendar(destination: String) {
+    private fun addCompleteRouteToCalendar(destination: String, theme: String) {
         try {
             if (route.itinerary.isEmpty()) {
                 Toast.makeText(this, "일정 정보가 없습니다.", Toast.LENGTH_SHORT).show()
                 return
             }
 
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            
+            val userStartDate = intent.getStringExtra("startDate")!!
+            val userEndDate = intent.getStringExtra("endDate")!!
+
+            val dateFormat = SimpleDateFormat("yyyy.M.d", Locale.getDefault())
             val startCalendar = Calendar.getInstance()
             val endCalendar = Calendar.getInstance()
 
-            // 시작일 설정 (첫 번째 날짜)
-            try {
-                startCalendar.time = dateFormat.parse(route.itinerary.first().date) ?: Date()
-            } catch (e: Exception) {
-                startCalendar.time = Date()
-            }
+            
+            startCalendar.time = dateFormat.parse(userStartDate)!!
             startCalendar.set(Calendar.HOUR_OF_DAY, 9)
             startCalendar.set(Calendar.MINUTE, 0)
             startCalendar.set(Calendar.SECOND, 0)
 
-            // 종료일 설정 (마지막 날짜)
-            try {
-                endCalendar.time = dateFormat.parse(route.itinerary.last().date) ?: Date()
-            } catch (e: Exception) {
-                endCalendar.time = Date()
-                endCalendar.add(Calendar.DAY_OF_MONTH, route.itinerary.size - 1)
-            }
+            
+            endCalendar.time = dateFormat.parse(userEndDate)!!
             endCalendar.set(Calendar.HOUR_OF_DAY, 18)
             endCalendar.set(Calendar.MINUTE, 0)
             endCalendar.set(Calendar.SECOND, 0)
@@ -187,37 +208,38 @@ class RouteViewActivity : AppCompatActivity() {
             val startTime = startCalendar.timeInMillis
             val endTime = endCalendar.timeInMillis
 
-            // 일정 제목
-            val title = "$destination 여행"
+            
+            val title = "[$theme] $destination 여행"
 
-            // 전체 여행 일정을 상세하게 기록
+            
             val description = StringBuilder()
-            description.append("📍 여행지: $destination\n")
-            description.append("📅 기간: ${route.itinerary.first().date} ~ ${route.itinerary.last().date}\n")
-            description.append("🗓 총 ${route.itinerary.size}일 여행\n\n")
+            description.append("- 여행지: $destination\n")
+            description.append("- 기간: $userStartDate ~ $userEndDate\n")
+            description.append("- 총 ${route.itinerary.size}일 여행\n\n")
             description.append("=== 상세 일정 ===\n\n")
 
             route.itinerary.forEach { itinerary ->
-                description.append("📆 Day ${itinerary.day} (${itinerary.date})\n")
+                description.append("- Day ${itinerary.day} (${itinerary.date})\n")
                 description.append("━━━━━━━━━━━━━━━━━━━━\n")
 
                 itinerary.schedule.forEach { schedule ->
-                    description.append("🕐 ${schedule.time}\n")
+                    description.append("- ${schedule.time}\n")
                     description.append("   ${schedule.activity}\n")
-                    description.append("   📍 ${schedule.location}\n\n")
+                    description.append("   - ${schedule.location}\n\n")
                 }
 
                 description.append("\n")
             }
 
-            // 첫 번째 날의 첫 번째 위치를 기본 위치로 설정
-            val location = if (route.itinerary.isNotEmpty() && route.itinerary.first().schedule.isNotEmpty()) {
-                route.itinerary.first().schedule.first().location
-            } else {
-                destination
-            }
+            
+            val location =
+                if (route.itinerary.isNotEmpty() && route.itinerary.first().schedule.isNotEmpty()) {
+                    route.itinerary.first().schedule.first().location
+                } else {
+                    destination
+                }
 
-            // 캘린더 인텐트 생성
+            
             val intent = Intent(Intent.ACTION_INSERT).apply {
                 data = CalendarContract.Events.CONTENT_URI
                 putExtra(CalendarContract.Events.TITLE, title)
@@ -226,10 +248,15 @@ class RouteViewActivity : AppCompatActivity() {
                 putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime)
                 putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime)
                 putExtra(CalendarContract.Events.ALL_DAY, false)
-                putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY)
+                putExtra(
+                    CalendarContract.Events.AVAILABILITY,
+                    CalendarContract.Events.AVAILABILITY_BUSY
+                )
             }
 
             startActivity(intent)
+
+
             Toast.makeText(this, "캘린더에 여행 일정이 추가되었습니다.", Toast.LENGTH_SHORT).show()
 
         } catch (e: Exception) {
@@ -240,19 +267,45 @@ class RouteViewActivity : AppCompatActivity() {
     private fun changeDay(day: Int) {
         pinOnMap(route.itinerary.get(day - 1).schedule)
         updateRecyclerView(route.itinerary.get(day - 1).schedule)
+        if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+            
+            findViewById<LinearLayout>(R.id.standard_bottom_sheet).post {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
     }
 
     private fun pinOnMap(schedule: List<Schedule>) {
         mapFragment.getMapAsync { googleMap ->
-            // 기존 마커들 제거
             for (marker in markerList)
                 marker?.remove()
             markerList.clear()
 
-            // 기존 polyline들 제거
             for (polyline in polylineList)
                 polyline?.remove()
             polylineList.clear()
+
+            
+            googleMap.setOnMarkerClickListener { marker ->
+                marker.showInfoWindow()                      
+                if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+                    
+                    findViewById<LinearLayout>(R.id.standard_bottom_sheet).post {
+                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
+                }
+                true   
+            }
+
+            
+            googleMap.setOnInfoWindowClickListener { _ ->
+                if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+                    findViewById<LinearLayout>(R.id.standard_bottom_sheet).post {
+                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    }
+                }
+            }
+
 
             val latLngList = mutableListOf<com.google.android.gms.maps.model.LatLng>()
 
@@ -268,17 +321,20 @@ class RouteViewActivity : AppCompatActivity() {
                         .position(latLng)
                         .title(it.activity)
                         .snippet("${it.time} - ${it.location}")
-                        .icon(BitmapDescriptorFactory.fromBitmap(
-                                createCustomMarker(this, (idx + 1).toString())))
+                        .icon(
+                            BitmapDescriptorFactory.fromBitmap(
+                                createCustomMarker(this, (idx + 1).toString())
+                            )
+                        )
                 )
                 markerList.add(marker)
             }
 
-            // 마커들 사이에 선 그리기
+            
             if (latLngList.size > 1) {
                 val polylineOptions = PolylineOptions()
                     .addAll(latLngList)
-                    .color(0xFF4285F4.toInt()) // Google Maps 파란색
+                    .color(0xFF4285F4.toInt()) 
                     .width(8f)
                     .geodesic(true)
 
@@ -286,13 +342,18 @@ class RouteViewActivity : AppCompatActivity() {
                 polylineList.add(polyline)
             }
 
-            // Move the camera to the first location
+            
             if (schedule.isNotEmpty()) {
                 val firstLocation = com.google.android.gms.maps.model.LatLng(
                     schedule[0].coordinates.lat,
-                    schedule[0].coordinates.lng)
+                    schedule[0].coordinates.lng
+                )
                 googleMap.moveCamera(
-                    com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom(firstLocation, 15f))
+                    com.google.android.gms.maps.CameraUpdateFactory.newLatLngZoom(
+                        firstLocation,
+                        15f
+                    )
+                )
             }
         }
     }
@@ -309,6 +370,11 @@ class RouteViewActivity : AppCompatActivity() {
             )
         }
         recyclerView.adapter = StepAdapter(stepList)
+        standardBottomSheet.post {
+            if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+        }
     }
 
     fun createCustomMarker(context: Context?, text: String?): Bitmap {
@@ -324,5 +390,9 @@ class RouteViewActivity : AppCompatActivity() {
         markerView.draw(Canvas(bitmap))
 
         return bitmap
+    }
+
+    fun goBack(view: View) {
+        onBackPressedDispatcher.onBackPressed()
     }
 }

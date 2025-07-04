@@ -3,6 +3,7 @@ package com.boattrip.boattrip
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -35,11 +36,10 @@ class RouteFetchActivity : AppCompatActivity() {
             insets
         }
 
-        // 이전 화면들에서 전달받은 모든 데이터
         val destination = intent.getStringExtra("destination") ?: "목적지 미지정"
         val startDate = intent.getStringExtra("startDate") ?: "날짜 미지정"
         val endDate = intent.getStringExtra("endDate") ?: "날짜 미지정"
-        val duration = intent.getIntExtra("duration", 0)
+        val duration = intent.getLongExtra("duration", 0)
         val theme = intent.getStringExtra("theme") ?: "일반"
         val departureTime = intent.getStringExtra("departureTime") ?: "시간을 선택해주세요"
         val arrivalTime = intent.getStringExtra("arrivalTime") ?: "시간을 선택해주세요"
@@ -82,12 +82,15 @@ class RouteFetchActivity : AppCompatActivity() {
                     role = "system",
                     content = "You are an exceptionally competent tour guide for a major travel agency.\n" +
                             "\n" +
-                            "Please create a `3-day, 2-night` itinerary for `도쿄` for customers.\n" +
+                            "Please create a itinerary for customers.\n" +
                             "The schedule must be fully packed without any idle time.\n" +
-                            /*"You must also consider walking and public transportation routes.\n" +
-                            "Approximate times must be included.\n" +
-                            "When listing restaurants, you must *never* make up fictitious names.\n" +
+                            "Each day must contain **a maximum of 6 scheduled items**.\n" +
+                            "You must also consider walking and public transportation routes.\n" +
+                            "The itinerary must **exclude the arrival (immigration) and departure (emigration) processes**.\n" +
                             "Do not include any accommodation-related items.\n" +
+                            /*"Approximate times must be included.\n" +
+                            "When listing restaurants, you must *never* make up fictitious names.\n" +
+
                             "Time must be written strictly in 'HH:mm' format (e.g., 09:00)\n" +
                             "\n" +
                             "The response must be in **JSON format only**.\n" +
@@ -124,10 +127,12 @@ class RouteFetchActivity : AppCompatActivity() {
                 ),
                 Message(
                     role = "user", 
-                    content = "테마: $theme\n" +
-                            "출발 시간: $departureTime\n" +
-                            "도착 시간: $arrivalTime\n" +
+                    content = "여행 테마: $theme\n" +
+                            "첫날 현지 도착 시간: $departureTime\n" +
+                            "마지막 날 현지 출발 시간: $arrivalTime\n" +
                             "교통수단: $transport\n" +
+                            "목적지: $destination\n" +
+                            "여행 기간: ${duration-1}박 ${duration}일\n" +
                             "이전에 받은 일정은 위치 좌표가 정확하지 않아 여행에 어려움이 있었습니다. 이번에는 정확한 공식 좌표만 사용해 다시 생성해주세요."
                 ),
             ),
@@ -144,7 +149,6 @@ class RouteFetchActivity : AppCompatActivity() {
                     response: Response<ResponseBody>
                 ) {
                     if (response.isSuccessful) {
-                        // 정상적으로 통신이 성고된 경우
                         var result: String? = response.body()?.string()
                         var a =
                             JsonParser.parseString(result).asJsonObject["output"].asJsonArray.get(0)
@@ -160,6 +164,11 @@ class RouteFetchActivity : AppCompatActivity() {
                         //load RouteActivity and pass the data
                         val intent = Intent(this@RouteFetchActivity, RouteViewActivity::class.java)
                         intent.putExtra("routeData", b.toString())
+                        intent.putExtra("destination", destination)
+                        intent.putExtra("theme", theme)
+                        intent.putExtra("startDate", startDate)
+                        intent.putExtra("endDate", endDate)
+                        intent.putExtra("duration", duration)
                         startActivity(intent)
                         finish()
                     } else {
@@ -173,9 +182,11 @@ class RouteFetchActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    // 통신 실패 (인터넷 끊킴, 예외 발생 등 시스템적인 이유)
-                    Log.d("YMC", "onFailure 에러: " + t.message.toString());
+                    Log.d("YMC", "onFailure 에러: " + t.message.toString())
                 }
             })
+    }
+    fun goBack(view: View) {
+        onBackPressedDispatcher.onBackPressed()
     }
 }

@@ -61,7 +61,9 @@ class ArchiveFragment : Fragment() {
         val routeJson = Gson().toJson(savedRoute.route)
         intent.putExtra("routeData", routeJson)
         intent.putExtra("destination", savedRoute.destination)
-        intent.putExtra("period", savedRoute.period)
+        intent.putExtra("theme", savedRoute.theme)
+        intent.putExtra("startDate", savedRoute.startDate)
+        intent.putExtra("endDate", savedRoute.endDate)
         startActivity(intent)
     }
 } 

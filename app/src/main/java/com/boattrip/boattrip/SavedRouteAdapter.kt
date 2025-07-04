@@ -27,9 +27,15 @@ class SavedRouteAdapter(
 
     override fun onBindViewHolder(holder: SavedRouteViewHolder, position: Int) {
         val savedRoute = savedRoutes[position]
+
+        val displayTitle = if (savedRoute.theme.isNotEmpty() && savedRoute.theme != "일반") {
+            "[${savedRoute.theme}] ${savedRoute.destination} 여행"
+        } else {
+            savedRoute.destination
+        }
         
-        holder.destinationText.text = savedRoute.destination
-        holder.periodText.text = savedRoute.period
+        holder.destinationText.text = displayTitle
+        holder.periodText.text = "${savedRoute.startDate} - ${savedRoute.endDate}"
         
         val dateFormat = SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.KOREA)
         holder.savedDateText.text = "저장: ${dateFormat.format(Date(savedRoute.savedAt))}"
