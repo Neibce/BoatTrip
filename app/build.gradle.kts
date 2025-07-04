@@ -45,7 +45,7 @@ dependencies {
     implementation(libs.tensorflow.lite)
     implementation(libs.tensorflow.lite.support)
     implementation(libs.mlkit.image.labeling.custom)
-    implementation("com.google.mlkit:image-labeling:17.0.8")
+    implementation(libs.image.labeling)
     implementation(libs.glide)
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.converter.gson)
@@ -66,6 +66,8 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
+
+    implementation(libs.androidx.core.splashscreen)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

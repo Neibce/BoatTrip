@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.BoatTrip" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -65,5 +65,12 @@
 
     <style name="TextAppearance.App.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
         <item name="fontFamily">@font/human_beomseokneo_regular</item>
+    </style>
+
+    <style name="Theme.BoatTrip.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/dog_logo_small</item>
+        <item name="windowSplashScreenIconBackgroundColor">@null</item>
+        <item name="postSplashScreenTheme">@style/Theme.BoatTrip</item>
     </style>
 </resources>
